@@ -1,0 +1,24 @@
+{
+  "name": "avito-api",
+  "version": "0.0.1",
+  "description": "Клиент для работы с api avito",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/demark-pro/avito-api.git"
+  },
+  "keywords": [
+    "avito",
+    "api",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/demark-pro/avito-api/issues"
+  },
+  "homepage": "https://github.com/demark-pro/avito-api#readme"
+}
