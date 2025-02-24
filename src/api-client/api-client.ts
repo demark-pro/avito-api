@@ -7,19 +7,22 @@ export type Token = {
   token_type: string;
 };
 
-export type CredentialsAuth = {
-  client_id: string;
-  client_secret: string;
-  getToken: () => Token | Promise<Token | null | undefined>;
-  setToken: (token: Token) => void | Promise<any>;
-};
+// export type CredentialsAuth = {
+//   clientId: string;
+//   clientSecret: string;
+// };
 
-// TODO: Сделать
-export type TokenAuth = {
-  token: string;
-};
+// export type TokenAuth = {
+//   token: string;
+// };
 
-export type Auth = CredentialsAuth;
+export type Auth = {
+  clientId: string;
+  clientSecret: string;
+};;
+
+export type SetTokenHandler = (token: Token) => void | Promise<void>
+export type GetTokenHandler = () => Token | null | undefined | Promise<Token | null | undefined>
 
 export type ApiClientOptions = {
   /**
@@ -41,6 +44,9 @@ export type ApiClientOptions = {
    * {@linkcode Auth}
    */
   auth: Auth;
+
+  setToken: SetTokenHandler;
+  getToken: GetTokenHandler;
 };
 
 type RequestOptions = Omit<RequestInit, "body"> & {
@@ -59,6 +65,9 @@ export class ApiClient {
   private baseUrl: string;
   private userAgent: string;
   private auth: Auth;
+  private setToken: SetTokenHandler;
+  private getToken: GetTokenHandler;
+
   private retrieveToken: boolean = false;
 
   constructor(options: ApiClientOptions) {
@@ -67,6 +76,8 @@ export class ApiClient {
       options.userAgent ??
       `avito-api/${version} (+https://github.com/demark-pro/avito-api)`;
     this.auth = options.auth;
+    this.setToken = options.setToken;
+    this.getToken = options.getToken;
   }
 
   async request(
@@ -75,13 +86,13 @@ export class ApiClient {
   ): Promise<Response> {
     const url = this.buildUrl(endpoint);
 
-    const avitoToken = (await this.auth.getToken()) ?? DEFAULT_TOKEN;
+    const avitoToken = (await this.getToken()) ?? DEFAULT_TOKEN;
 
     const response = await fetch(
       url.toString() +
-        (searchParams && searchParams.size > 0
-          ? `?${searchParams.toString()}`
-          : ""),
+      (searchParams && searchParams.size > 0
+        ? `?${searchParams.toString()}`
+        : ""),
       {
         ...options,
         body: options.body ? JSON.stringify(options.body) : undefined,
@@ -106,7 +117,7 @@ export class ApiClient {
       }
 
       const token = await this._getToken();
-      await this.auth.setToken(token);
+      await this.setToken(token);
       this.retrieveToken = true;
 
       return this.request(endpoint, { ...options, searchParams });
@@ -118,8 +129,8 @@ export class ApiClient {
   private async _getToken(): Promise<Token> {
     const searchParams = new URLSearchParams();
     searchParams.append("grant_type", "client_credentials");
-    searchParams.append("client_id", this.auth.client_id);
-    searchParams.append("client_secret", this.auth.client_secret);
+    searchParams.append("client_id", this.auth.clientId);
+    searchParams.append("client_secret", this.auth.clientSecret);
 
     const response = await this.post(`/token`, {
       searchParams: searchParams,

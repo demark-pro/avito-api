@@ -11,24 +11,24 @@
 ## Пример
 
 ```typescript
-import { Avito, Token } from "avito-api";
+import { Avito, SetTokenHandler, GetTokenHandler } from "avito-api";
 
-const setToken = (token: Token) => {
+const setToken: SetTokenHandler = (token) => {
   await db.settings.update("avito_token", JSON.stringify(token));
 };
 
-const getToken = async () => {
+const getToken: GetTokenHandler = async () => {
   const token = await db.settings.get("avito_token");
   return JSON.parse(token);
 };
 
 export const avito = new Avito({
   auth: {
-    client_id: process.env.AVITO_CLIENT_ID,
-    сlient_secret: process.env.AVITO_CLIENT_SECRET,
-    setToken: setToken,
-    getToken: getToken,
+    clientId: process.env.AVITO_CLIENT_ID,
+    сlientSecret: process.env.AVITO_CLIENT_SECRET,
   },
+  setToken: setToken,
+  getToken: getToken,
 });
 
 // Список отчётов автозагрузки
