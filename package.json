@@ -1,6 +1,6 @@
 {
   "name": "avito-api",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Клиент для работы с api avito",
   "sideEffects": false,
   "type": "module",
