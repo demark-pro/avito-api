@@ -19,10 +19,14 @@ export type Token = {
 export type Auth = {
   clientId: string;
   clientSecret: string;
-};;
+};
 
-export type SetTokenHandler = (token: Token) => void | Promise<void>
-export type GetTokenHandler = () => Token | null | undefined | Promise<Token | null | undefined>
+export type SetTokenHandler = (token: Token) => void | Promise<void>;
+export type GetTokenHandler = () =>
+  | Token
+  | null
+  | undefined
+  | Promise<Token | null | undefined>;
 
 export type ApiClientOptions = {
   /**
@@ -90,9 +94,9 @@ export class ApiClient {
 
     const response = await fetch(
       url.toString() +
-      (searchParams && searchParams.size > 0
-        ? `?${searchParams.toString()}`
-        : ""),
+        (searchParams && searchParams.size > 0
+          ? `?${searchParams.toString()}`
+          : ""),
       {
         ...options,
         body: options.body ? JSON.stringify(options.body) : undefined,
