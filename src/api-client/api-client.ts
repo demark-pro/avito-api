@@ -9,7 +9,7 @@ export type Token = {
 
 export type CredentialsAuth = {
   client_id: string;
-  сlient_secret: string;
+  client_secret: string;
   getToken: () => Token | Promise<Token | null | undefined>;
   setToken: (token: Token) => void | Promise<any>;
 };
@@ -119,7 +119,7 @@ export class ApiClient {
     const searchParams = new URLSearchParams();
     searchParams.append("grant_type", "client_credentials");
     searchParams.append("client_id", this.auth.client_id);
-    searchParams.append("client_secret", this.auth.сlient_secret);
+    searchParams.append("client_secret", this.auth.client_secret);
 
     const response = await this.post(`/token`, {
       searchParams: searchParams,
