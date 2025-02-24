@@ -1,2 +1,2 @@
-export { AutoloadReportsEndpoint } from "./endpoints"
-export * from "./types"
+export { AutoloadReportsEndpoint } from "./endpoints";
+export * from "./types";

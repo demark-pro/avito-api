@@ -1,3 +1,6 @@
 export { Avito } from "./avito";
 
-export type { Token } from "./api-client"
+export type { Token, ApiClientOptions, Auth } from "./api-client";
+
+export * from "./types";
+export * from "./endpoints";

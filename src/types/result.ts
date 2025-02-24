@@ -1,4 +1,3 @@
-
 export type ItemsResponse<T> = {
-    items: T[];
-}
+  items: T[];
+};

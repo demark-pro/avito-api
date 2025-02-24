@@ -17,7 +17,10 @@ class AvitoApiError extends AvitoError {
   }
 }
 
-const DEFAULT_TOKEN = { access_token: "", token_type: "Bearer" };
+const DEFAULT_TOKEN = {
+  access_token: "",
+  token_type: "Bearer"
+};
 class ApiClient {
   baseUrl;
   userAgent;
@@ -38,7 +41,7 @@ class ApiClient {
         body: options.body ? JSON.stringify(options.body) : void 0,
         headers: {
           ...options.headers,
-          "Authorization": `${avitoToken.token_type} ${avitoToken.access_token}`,
+          Authorization: `${avitoToken.token_type} ${avitoToken.access_token}`,
           "User-Agent": this.userAgent,
           "Content-Type": "application/json"
         }
@@ -172,7 +175,7 @@ const ENDPOINT_URL$3 = `/autoload/v2/items`;
 class AutoloadItemsEndpoint extends BaseEndpoint {
   /**
    * ID объявлений из файла
-   * 
+   *
    * Метод позволяет получить идентификаторы (ID) объявлений из файла автозагрузки по ID объявлений на Авито.
    *
    * @see https://developers.avito.ru/api-catalog/autoload/documentation#operation/getAdIdsByAvitoIds
@@ -182,23 +185,27 @@ class AutoloadItemsEndpoint extends BaseEndpoint {
    */
   async getAdIds(options) {
     const query = options.query.filter((id) => typeof id === "number").join(",");
-    const response = await this.client.get(`${ENDPOINT_URL$3}/ad_ids?query=${query}`);
+    const response = await this.client.get(
+      `${ENDPOINT_URL$3}/ad_ids?query=${query}`
+    );
     return response.json();
   }
   /**
    * ID объявлений на Авито
-   * 
+   *
    * Метод позволяет получить идентификаторы (ID) объявлений на Авито по идентификаторам объявлений из файла автозагрузки.
    *
    * @see https://developers.avito.ru/api-catalog/autoload/documentation#operation/getAvitoIdsByAdIds
    *
    * @param options Параметры запроса {@linkcode ListAvitoIdsAutoloadItemsOptions}
-   * @returns Список связанных идентификаторов (ID) объявлений 
+   * @returns Список связанных идентификаторов (ID) объявлений
    * из файла с идентификаторами (ID) на Авито {@linkcode ItemsResponse<AutoloadItemShort>}
    */
   async getAvitoIds(options) {
     const query = options.query.filter((id) => id.trim().length).join(",");
-    const response = await this.client.get(`${ENDPOINT_URL$3}/avito_ids?query=${query}`);
+    const response = await this.client.get(
+      `${ENDPOINT_URL$3}/avito_ids?query=${query}`
+    );
     return response.json();
   }
 }
@@ -234,7 +241,7 @@ const ENDPOINT_URL_V3 = `/autoload/v3/reports`;
 class AutoloadReportsEndpoint extends BaseEndpoint {
   /**
    * Список отчётов автозагрузки
-   * 
+   *
    * По запросу вы получите список отчётов автозагрузки. Они будут отсортированы в порядке убывания: самый свежий отчёт — в начале списка.
    *
    * @see https://developers.avito.ru/api-catalog/autoload/documentation#operation/getReportsV2
@@ -273,7 +280,9 @@ class AutoloadReportsEndpoint extends BaseEndpoint {
    */
   async getItems(options) {
     const query = options.query.filter((id) => id.trim().length).join(",");
-    const response = await this.client.get(`${ENDPOINT_URL$1}/items?query=${query}`);
+    const response = await this.client.get(
+      `${ENDPOINT_URL$1}/items?query=${query}`
+    );
     return response.json();
   }
   /**
@@ -281,7 +290,7 @@ class AutoloadReportsEndpoint extends BaseEndpoint {
    *
    * @see https://developers.avito.ru/api-catalog/autoload/documentation#operation/getReportItemsById
    *
-   * @param reportId ID выгрузки 
+   * @param reportId ID выгрузки
    * @param options Параметры запроса {@linkcode GetAutoloadReportItemsOptions}
    * @returns Возвращает данные по конкретным объявлениям. {@linkcode ListAutoloadReportItems}
    */
@@ -290,19 +299,26 @@ class AutoloadReportsEndpoint extends BaseEndpoint {
     const searchParams = new URLSearchParams();
     if (perPage) searchParams.append("per_page", perPage.toString());
     if (page) searchParams.append("page", page.toString());
-    if (query) searchParams.append("query", query.filter((id) => id.trim().length).join(","));
+    if (query)
+      searchParams.append(
+        "query",
+        query.filter((id) => id.trim().length).join(",")
+      );
     if (sections) searchParams.append("sections", sections.join(","));
-    const response = await this.client.get(`${ENDPOINT_URL$1}/${reportId}/items`, { searchParams });
+    const response = await this.client.get(
+      `${ENDPOINT_URL$1}/${reportId}/items`,
+      { searchParams }
+    );
     return response.json();
   }
   /**
    * Списания за объявления в конкретной выгрузке
    *
    * @see https://developers.avito.ru/api-catalog/autoload/documentation#operation/getReportItemsFeesById
-   * 
+   *
    * С помощью этого метода можно получить информацию о списаниях за размещение каждого объявления в конкретной выгрузке.
    *
-   * @param reportId ID выгрузки 
+   * @param reportId ID выгрузки
    * @param options Параметры запроса {@linkcode ListAutoloadReportItemsFeesOptions}
    * @returns Возвращает cписок списаний за размещение объявлений {@linkcode ListAutoloadReportItemsFees}
    */
@@ -311,9 +327,20 @@ class AutoloadReportsEndpoint extends BaseEndpoint {
     const searchParams = new URLSearchParams();
     if (perPage) searchParams.append("per_page", perPage.toString());
     if (page) searchParams.append("page", page.toString());
-    if (adIds) searchParams.append("ad_ids", adIds.filter((id) => id.trim().length).join(","));
-    if (avitoIds) searchParams.append("avito_ids", avitoIds.filter((id) => typeof id === "number").join(","));
-    const response = await this.client.get(`${ENDPOINT_URL$1}/${reportId}/items/fees`, { searchParams });
+    if (adIds)
+      searchParams.append(
+        "ad_ids",
+        adIds.filter((id) => id.trim().length).join(",")
+      );
+    if (avitoIds)
+      searchParams.append(
+        "avito_ids",
+        avitoIds.filter((id) => typeof id === "number").join(",")
+      );
+    const response = await this.client.get(
+      `${ENDPOINT_URL$1}/${reportId}/items/fees`,
+      { searchParams }
+    );
     return response.json();
   }
   /**
@@ -324,7 +351,9 @@ class AutoloadReportsEndpoint extends BaseEndpoint {
    * @returns Возвращает данные по конкретным объявлениям. {@linkcode AutoloadReportsItems}
    */
   async getLastCompletedReport() {
-    const response = await this.client.get(`${ENDPOINT_URL_V3}/last_completed_report`);
+    const response = await this.client.get(
+      `${ENDPOINT_URL_V3}/last_completed_report`
+    );
     return response.json();
   }
 }
@@ -362,5 +391,5 @@ class Avito {
   }
 }
 
-export { Avito };
+export { AutoloadEndpoint, AutoloadItemsEndpoint, AutoloadProfileEndpoint, AutoloadReportsEndpoint, Avito };
 //# sourceMappingURL=index.js.map

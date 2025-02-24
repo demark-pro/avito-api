@@ -3,15 +3,14 @@ import type { ApiClientOptions } from "./api-client";
 import { ApiClient } from "./api-client";
 import { AutoloadEndpoint } from "./endpoints";
 
-
 export class Avito {
-    public client: ApiClient;
+  public client: ApiClient;
 
-    public autoload: AutoloadEndpoint;
+  public autoload: AutoloadEndpoint;
 
-    constructor(options: ApiClientOptions) {
-        this.client = new ApiClient(options);
+  constructor(options: ApiClientOptions) {
+    this.client = new ApiClient(options);
 
-        this.autoload = new AutoloadEndpoint(this.client);
-    }
+    this.autoload = new AutoloadEndpoint(this.client);
+  }
 }

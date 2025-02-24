@@ -1,9 +1,7 @@
-import { AdIdable } from '../../../types';
-import { AvitoIdable } from '../../../types';
-import { ItemsResponse } from '../../../types';
-import { PaginatableQuery } from '../../../types';
-import { PaginatableResponse } from '../../../types';
-import { RequiredNotNull } from '../../../types';
+export declare interface AdIdable {
+    /** Идентификатор объявления из файла */
+    readonly ad_id: string | null;
+}
 
 declare class ApiClient {
     private baseUrl;
@@ -83,7 +81,7 @@ declare class ApiClient {
     buildUrl(url: string | string[]): URL;
 }
 
-declare type ApiClientOptions = {
+export declare type ApiClientOptions = {
     /**
      * Базовый URL
      *
@@ -104,9 +102,9 @@ declare type ApiClientOptions = {
     auth: Auth;
 };
 
-declare type Auth = CredentialsAuth;
+export declare type Auth = CredentialsAuth;
 
-declare class AutoloadEndpoint extends BaseEndpoint {
+export declare class AutoloadEndpoint extends BaseEndpoint {
     items: AutoloadItemsEndpoint;
     profile: AutoloadProfileEndpoint;
     reports: AutoloadReportsEndpoint;
@@ -121,7 +119,7 @@ declare class AutoloadEndpoint extends BaseEndpoint {
     upload(): Promise<boolean>;
 }
 
-declare interface AutoloadItem extends AdIdable, AvitoIdable {
+export declare interface AutoloadItem extends AdIdable, AvitoIdable {
     avito_date_end: string | null;
     avito_status: AutoloadItemStatuses | null;
     fee_info: AutoloadItemFeeInfo | null;
@@ -131,21 +129,21 @@ declare interface AutoloadItem extends AdIdable, AvitoIdable {
     url: string | null;
 }
 
-declare interface AutoloadItemFee extends AdIdable, AvitoIdable {
+export declare interface AutoloadItemFee extends AdIdable, AvitoIdable {
     fees_amount: number;
     fees_package_id: number | null;
     fees_type: AutoloadItemFeeTypes;
 }
 
-declare type AutoloadItemFeeInfo = {
+export declare type AutoloadItemFeeInfo = {
     amount: number | null;
     package_id: number | null;
     type: "single" | "package";
 };
 
-declare type AutoloadItemFeeTypes = "single" | "package";
+export declare type AutoloadItemFeeTypes = "single" | "package";
 
-declare type AutoloadItemMessage = {
+export declare type AutoloadItemMessage = {
     code: number;
     description: string;
     title: string;
@@ -153,12 +151,12 @@ declare type AutoloadItemMessage = {
     updated_at: string;
 };
 
-declare type AutoloadItemSection = {
+export declare type AutoloadItemSection = {
     slug: string;
     title: string;
 };
 
-declare class AutoloadItemsEndpoint extends BaseEndpoint {
+export declare class AutoloadItemsEndpoint extends BaseEndpoint {
     /**
      * ID объявлений из файла
      *
@@ -184,23 +182,23 @@ declare class AutoloadItemsEndpoint extends BaseEndpoint {
     getAvitoIds(options: ListAvitoIdsAutoloadItemsOptions): Promise<ItemsResponse<AutoloadItemShort>>;
 }
 
-declare interface AutoloadItemShort extends AdIdable, AvitoIdable {
+export declare interface AutoloadItemShort extends AdIdable, AvitoIdable {
 }
 
-declare type AutoloadItemStatuses = "active" | "old" | "blocked" | "rejected" | "archived" | "removed";
+export declare type AutoloadItemStatuses = "active" | "old" | "blocked" | "rejected" | "archived" | "removed";
 
-declare interface AutoloadProfile {
+export declare interface AutoloadProfile {
     autoload_enabled: boolean;
     feeds_data: AutoloadProfileFeedsDataItem[] | null;
     report_email: string | null;
     schedule: AutoloadProfileScheduleItem[];
 }
 
-declare interface AutoloadProfileCreateOrUpdate extends RequiredNotNull<AutoloadProfile, "feeds_data" | "report_email"> {
+export declare interface AutoloadProfileCreateOrUpdate extends RequiredNotNull<AutoloadProfile, "feeds_data" | "report_email"> {
     agreement?: boolean;
 }
 
-declare class AutoloadProfileEndpoint extends BaseEndpoint {
+export declare class AutoloadProfileEndpoint extends BaseEndpoint {
     /**
      * Получение профиля пользователя автозагрузки
      *
@@ -219,18 +217,18 @@ declare class AutoloadProfileEndpoint extends BaseEndpoint {
     createOrUpdate(body: AutoloadProfileCreateOrUpdate): Promise<boolean>;
 }
 
-declare type AutoloadProfileFeedsDataItem = {
+export declare type AutoloadProfileFeedsDataItem = {
     feed_name: string;
     feed_url: string;
 };
 
-declare type AutoloadProfileScheduleItem = {
+export declare type AutoloadProfileScheduleItem = {
     rate: number;
     time_slots: number[];
     weekdays: number[];
 };
 
-declare interface AutoloadReport {
+export declare interface AutoloadReport {
     events: AutoloadReportEvent[];
     feeds_urls: AutoloadReportFeedUrl[];
     finished_at: string;
@@ -245,28 +243,28 @@ declare interface AutoloadReport {
     status: AutoloadReportStatuses;
 }
 
-declare type AutoloadReportEvent = {
+export declare type AutoloadReportEvent = {
     code: number;
     description: string;
     type: string;
 };
 
-declare type AutoloadReportFeedUrl = {
+export declare type AutoloadReportFeedUrl = {
     name: string;
     url: string;
 };
 
-declare interface AutoloadReportItem extends Omit<AutoloadItem, "fee_info"> {
+export declare interface AutoloadReportItem extends Omit<AutoloadItem, "fee_info"> {
     applied_vas: any[];
     feed_name: string;
 }
 
-declare interface AutoloadReportSection extends AutoloadItemSection {
+export declare interface AutoloadReportSection extends AutoloadItemSection {
     count: number;
     sections: AutoloadReportSection[];
 }
 
-declare class AutoloadReportsEndpoint extends BaseEndpoint {
+export declare class AutoloadReportsEndpoint extends BaseEndpoint {
     /**
      * Список отчётов автозагрузки
      *
@@ -327,18 +325,23 @@ declare class AutoloadReportsEndpoint extends BaseEndpoint {
     getLastCompletedReport(): Promise<AutoloadReport>;
 }
 
-declare interface AutoloadReportShort extends Pick<AutoloadReport, "finished_at" | "started_at" | "status"> {
+export declare interface AutoloadReportShort extends Pick<AutoloadReport, "finished_at" | "started_at" | "status"> {
     id: number;
 }
 
-declare type AutoloadReportSourses = "email" | "url" | "web" | "openapi";
+export declare type AutoloadReportSourses = "email" | "url" | "web" | "openapi";
 
-declare type AutoloadReportStatuses = "processing" | "success" | "success_warning" | "error";
+export declare type AutoloadReportStatuses = "processing" | "success" | "success_warning" | "error";
 
 export declare class Avito {
     client: ApiClient;
     autoload: AutoloadEndpoint;
     constructor(options: ApiClientOptions);
+}
+
+export declare interface AvitoIdable {
+    /** Идентификатор объявления на Авито */
+    readonly avito_id: number;
 }
 
 declare class BaseEndpoint {
@@ -350,49 +353,73 @@ declare type CredentialsAuth = {
     client_id: string;
     сlient_secret: string;
     getToken: () => Token | Promise<Token | null | undefined>;
-    setToken: (token: Token) => (void | Promise<any>);
+    setToken: (token: Token) => void | Promise<any>;
 };
 
-declare type GetAutoloadReportItemsOptions = PaginatableQuery<{
+export declare type GetAutoloadReportItemsOptions = PaginatableQuery<{
     query?: string[];
     sections?: string[];
 }>;
 
-declare type GetAutoloadReportsItemsOptions = {
+export declare type GetAutoloadReportsItemsOptions = {
     query: string[];
 };
 
-declare type ListAdIdsAutoloadItemsOptions = {
+export declare type ItemsResponse<T> = {
+    items: T[];
+};
+
+export declare type ListAdIdsAutoloadItemsOptions = {
     /** Список ID объявлений на Авито */
     query: number[];
 };
 
-declare type ListAutoloadReportItems = ItemsResponse<AutoloadReportItem> & PaginatableResponse<{
+export declare type ListAutoloadReportItems = ItemsResponse<AutoloadReportItem> & PaginatableResponse<{
     report_id: number;
 }>;
 
-declare type ListAutoloadReportItemsFees = PaginatableResponse<{
+export declare type ListAutoloadReportItemsFees = PaginatableResponse<{
     fees: AutoloadItemFee[];
     report_id: number;
 }>;
 
-declare type ListAutoloadReportItemsFeesOptions = PaginatableQuery<{
+export declare type ListAutoloadReportItemsFeesOptions = PaginatableQuery<{
     adIds?: string[];
     avitoIds?: number[];
 }>;
 
-declare type ListAutoloadReports = PaginatableResponse<{
+export declare type ListAutoloadReports = PaginatableResponse<{
     reports: AutoloadReportShort[];
 }>;
 
-declare type ListAutoloadReportsOptions = PaginatableQuery<{
+export declare type ListAutoloadReportsOptions = PaginatableQuery<{
     dateFrom?: string;
     dateTo?: string;
 }>;
 
-declare type ListAvitoIdsAutoloadItemsOptions = {
+export declare type ListAvitoIdsAutoloadItemsOptions = {
     /** Список ID объявлений из файла */
     query: string[];
+};
+
+declare type NotNull<T> = {
+    [P in keyof T]: NonNullable<T[P]>;
+};
+
+export declare type PaginatableMeta = {
+    page: number;
+    pages: number;
+    per_page: number;
+    total: number;
+};
+
+export declare type PaginatableQuery<T> = T & {
+    perPage?: number;
+    page?: number;
+};
+
+export declare type PaginatableResponse<T> = T & {
+    meta: PaginatableMeta;
 };
 
 declare type RequestOptions = Omit<RequestInit, "body"> & {
@@ -401,6 +428,8 @@ declare type RequestOptions = Omit<RequestInit, "body"> & {
 };
 
 declare type RequestOptionsWithoutMethod = Omit<RequestOptions, "method">;
+
+export declare type RequiredNotNull<T, K extends keyof T> = T & Required<NotNull<Pick<T, K>>>;
 
 export declare type Token = {
     access_token: string;
