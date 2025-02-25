@@ -1,10 +1,19 @@
 {
-    "$schema": "https://typedoc-plugin-markdown.org/schema.json",
     "entryPoints": [
-        "./src/index.ts"
+        "./src/*"
     ],
-    "out": "docs",
     "plugin": [
         "typedoc-plugin-markdown"
     ],
+    "githubPages": false,
+    "readme": "none",
+    "indexFormat": "table",
+    "useCodeBlocks": true,
+    "disableSources": true,
+    "excludeScopesInPaths": true,
+    "textContentMappings": {
+        "title.indexPage": "API Reference",
+        "title.memberPage": "{name}"
+    },
+    "out": "./docs"
 }
